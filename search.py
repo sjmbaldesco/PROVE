@@ -13,12 +13,13 @@ from logger import log_transaction
 
 # Ordered list of root domains for site: restrictions (PRD: hardcoded config)
 factcheck_operators = [
-    "snopes.com",
-    "politifact.com",
-    "factcheck.org",
-    "reuters.com",
-    "apnews.com",
-    "fullfact.org",
+    "verafiles.org",
+    "rappler.com",
+    "tsek.ph",
+    "mindanews.com",
+    "pressone.ph",
+    "news.abs-cbn.com",
+    "philstar.com",
 ]
 
 
