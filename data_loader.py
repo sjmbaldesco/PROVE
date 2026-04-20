@@ -15,6 +15,7 @@ blocklist_set: set[str] = set()
 ugc_platforms_set: set[str] = set()
 last_load_error: str | None = None
 
+# Normalizes a domain string by making it lowercase, stripping whitespace, and removing 'www.', credentials, and port numbers.
 def normalize_domain(netloc: str) -> str:
     host = netloc.lower().strip()
     if host.startswith("www."):
@@ -26,6 +27,7 @@ def normalize_domain(netloc: str) -> str:
     return host
 
 
+# Reads a CSV file line-by-line and returns a set of normalized domain strings.
 def _read_csv_domains(path: Path) -> set[str]:
     out: set[str] = set()
     with open(path, newline="", encoding="utf-8") as f:
@@ -35,6 +37,7 @@ def _read_csv_domains(path: Path) -> set[str]:
                 out.add(normalize_domain(row[0].strip()))
     return out
 
+# Populates the global blocklist and UGC sets from CSV files, recording any file loading errors.
 def load_datasets() -> None:
     """
     Populate blocklist_set and ugc_platforms_set from CSV files.
@@ -68,6 +71,7 @@ def load_datasets() -> None:
     ugc_platforms_set.update(ugc)
     last_load_error = "; ".join(errors) if errors else None
 
+# Appends a newly flagged, normalized root domain to the blocklist CSV file.
 def append_to_blocklist(domain: str) -> None:
     """Append a normalized root domain to blocklist.csv (newline after row)."""
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -78,6 +82,7 @@ def append_to_blocklist(domain: str) -> None:
         writer = csv.writer(f, lineterminator="\n")
         writer.writerow([normalized])
 
+# Prompts the user to enter a domain to flag, updates the blocklist, reloads datasets, and returns success status.
 def flag_new_source(parent) -> tuple[bool, str]:
     """
     Prompt for a domain, append to blocklist.csv, reload sets.

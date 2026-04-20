@@ -10,9 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent
 LOG_DIR = BASE_DIR / "logs"
 HISTORY_PATH = LOG_DIR / "history.txt"
 
+# Cleans the input string by normalizing whitespace and replacing tabs with spaces to ensure log file integrity.
 def sanitize_for_log(text: str) -> str:
     return " ".join(text.replace("\t", " ").split())
 
+# Appends a timestamped, sanitized query to the history log file, returning an error message if the write fails.
 def log_transaction(query: str) -> str | None:
     """
     Append ISO-8601 timestamp, TAB, sanitized query to history.txt.

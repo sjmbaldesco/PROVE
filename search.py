@@ -22,6 +22,7 @@ factcheck_operators = [
     "philstar.com",
 ]
 
+# Opens the given URL using the default web browser, falling back to OS-specific commands if needed.
 def _open_url(url: str) -> None:
     if webbrowser.open(url):
         return
@@ -35,6 +36,7 @@ def _open_url(url: str) -> None:
     except OSError:
         pass
 
+# Constructs a fact-checking Google search query, opens it in the browser, and logs the transaction.
 def execute_search(sanitized_user_input: str) -> str | None:
     """
     Concatenate site: operators into a single search query, open Google search in the browser,

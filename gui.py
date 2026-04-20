@@ -32,6 +32,7 @@ _DEFAULT_STATUS = (
     "fact-check–oriented search; nothing is fetched inside this app."
 )
 
+# Selects and applies an appropriate UI theme based on the operating system (Windows, macOS, or default).
 def _pick_theme(root: tk.Tk, style: ttk.Style) -> None:
     if sys.platform == "win32":
         for name in ("vista", "xpnative", "clam"):
@@ -48,6 +49,7 @@ def _pick_theme(root: tk.Tk, style: ttk.Style) -> None:
             continue
     style.theme_use("default")
 
+# Configures the global visual styles for various Tkinter widgets (frames, labels, buttons) used in the application.
 def _setup_style(root: tk.Tk) -> ttk.Style:
     style = ttk.Style(root)
     _pick_theme(root, style)
@@ -106,12 +108,14 @@ def _setup_style(root: tk.Tk) -> ttk.Style:
     root.configure(bg=_BG)
     return style
 
+# Determines the appropriate button style name to use for the main submit action, favoring native accent styles on Windows.
 def _submit_button_style(style: ttk.Style) -> str:
     """Use Windows accent primary when the theme supports it."""
     if sys.platform == "win32" and style.theme_use() == "vista":
         return "Accent.TButton"
     return "TButton"
 
+# Sets up the main window, initializes styles, constructs all UI components, and binds event handlers for the application.
 def initialize_gui() -> None:
     root = tk.Tk()
     root.title(f"{TITLE} — {SUBTITLE}")
@@ -165,6 +169,7 @@ def initialize_gui() -> None:
     )
     status_lbl.pack(fill=tk.BOTH, expand=True)
 
+    # Dynamically updates the text wrapping width of the status label when the window is resized.
     def _sync_wrap(_event: tk.Event | None = None) -> None:
         try:
             w = max(text_host.winfo_width() - 8, 240)
@@ -174,9 +179,11 @@ def initialize_gui() -> None:
 
     text_host.bind("<Configure>", _sync_wrap)
 
+    # Updates the background color of the accent strip on the status card.
     def set_accent(color: str) -> None:
         accent_strip.configure(bg=color)
 
+    # Updates the UI with appropriate colors and messages based on the evaluated credibility status (FAKE, UGC, UNKNOWN).
     def apply_credibility_style(status: str) -> None:
         if status == "FAKE":
             set_accent(_STRIP_FAKE)
@@ -194,10 +201,12 @@ def initialize_gui() -> None:
                 "UNKNOWN — no list match. Opening a targeted fact-check search in your browser."
             )
 
+    # Displays an error message in the status card and changes the accent strip to the error color.
     def show_gui_error(message: str) -> None:
         set_accent(_STRIP_ERROR)
         status_var.set(f"Error: {message}")
 
+    # Attempts to load datasets on startup and updates the status UI to show warnings if any files are missing.
     def apply_startup_warning() -> None:
         load_datasets()
         if last_load_error:
@@ -209,6 +218,7 @@ def initialize_gui() -> None:
             set_accent(_STRIP_NEUTRAL)
             status_var.set(_DEFAULT_STATUS)
 
+    # Handles the submit action: evaluates input credibility, updates the UI, executes the search, and logs the query.
     def on_submit(_event=None) -> None:
         raw = entry_var.get()
         if not raw.strip():
@@ -229,11 +239,13 @@ def initialize_gui() -> None:
         except Exception as exc:  # noqa: BLE001
             show_gui_error(str(exc))
 
+    # Resets the input field and status card to their default neutral states.
     def on_clear() -> None:
         entry_var.set("")
         set_accent(_STRIP_NEUTRAL)
         status_var.set(_DEFAULT_STATUS)
 
+    # Opens a dialog to flag a new source, updates the blocklist, and provides feedback in the status area.
     def on_flag() -> None:
         ok, _ = flag_new_source(root)
         if ok:
