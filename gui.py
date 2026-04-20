@@ -16,7 +16,6 @@ from search import execute_search
 TITLE = "P.R.O.V.E."
 SUBTITLE = "Python Resolve for Objective Verification & Evaluation"
 
-# Minimal palette (flat, high legibility)
 _BG = "#f0f1f4"
 _CARD = "#fafbfc"
 _CARD_BORDER = "#e4e6eb"
@@ -33,7 +32,6 @@ _DEFAULT_STATUS = (
     "fact-check–oriented search; nothing is fetched inside this app."
 )
 
-
 def _pick_theme(root: tk.Tk, style: ttk.Style) -> None:
     if sys.platform == "win32":
         for name in ("vista", "xpnative", "clam"):
@@ -49,7 +47,6 @@ def _pick_theme(root: tk.Tk, style: ttk.Style) -> None:
         except tk.TclError:
             continue
     style.theme_use("default")
-
 
 def _setup_style(root: tk.Tk) -> ttk.Style:
     style = ttk.Style(root)
@@ -109,13 +106,11 @@ def _setup_style(root: tk.Tk) -> ttk.Style:
     root.configure(bg=_BG)
     return style
 
-
 def _submit_button_style(style: ttk.Style) -> str:
     """Use Windows accent primary when the theme supports it."""
     if sys.platform == "win32" and style.theme_use() == "vista":
         return "Accent.TButton"
     return "TButton"
-
 
 def initialize_gui() -> None:
     root = tk.Tk()
@@ -268,7 +263,6 @@ def initialize_gui() -> None:
 
     apply_startup_warning()
     root.mainloop()
-
 
 if __name__ == "__main__":
     initialize_gui()

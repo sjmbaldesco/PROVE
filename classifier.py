@@ -8,7 +8,6 @@ from urllib.parse import urlparse
 
 from data_loader import blocklist_set, normalize_domain, ugc_platforms_set
 
-
 def _host_in_set(host: str, domains: set[str]) -> bool:
     """True if host equals a listed domain or is a subdomain of one (e.g. m.twitter.com vs twitter.com)."""
     h = normalize_domain(host)
@@ -27,7 +26,6 @@ _DOMAIN_LIKE = re.compile(
     r"^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}",
     re.IGNORECASE,
 )
-
 
 def process_input(raw: str) -> tuple[str, str]:
     """
@@ -59,7 +57,6 @@ def process_input(raw: str) -> tuple[str, str]:
         return ("url", domain) if domain else ("text", s)
 
     return ("text", s)
-
 
 def evaluate_credibility(input_type: str, parsed_value: str) -> str:
     """

@@ -1,6 +1,7 @@
 """
 Build fact-check search URL with site operators and open the default browser.
 """
+
 from __future__ import annotations
 
 import os
@@ -11,7 +12,6 @@ from urllib.parse import quote_plus
 
 from logger import log_transaction
 
-# Ordered list of root domains for site: restrictions (PRD: hardcoded config)
 factcheck_operators = [
     "verafiles.org",
     "rappler.com",
@@ -21,7 +21,6 @@ factcheck_operators = [
     "news.abs-cbn.com",
     "philstar.com",
 ]
-
 
 def _open_url(url: str) -> None:
     if webbrowser.open(url):
@@ -35,7 +34,6 @@ def _open_url(url: str) -> None:
             subprocess.run(["xdg-open", url], check=False)
     except OSError:
         pass
-
 
 def execute_search(sanitized_user_input: str) -> str | None:
     """

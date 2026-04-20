@@ -1,8 +1,8 @@
 """
 Append-only transaction log for fact-check queries.
 """
-from __future__ import annotations
 
+from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
 
@@ -10,10 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent
 LOG_DIR = BASE_DIR / "logs"
 HISTORY_PATH = LOG_DIR / "history.txt"
 
-
 def sanitize_for_log(text: str) -> str:
     return " ".join(text.replace("\t", " ").split())
-
 
 def log_transaction(query: str) -> str | None:
     """
@@ -28,7 +26,6 @@ def log_transaction(query: str) -> str | None:
     except OSError as e:
         return f"Could not write log: {e}"
     return None
-
 
 if __name__ == "__main__":
     err = log_transaction("test query")

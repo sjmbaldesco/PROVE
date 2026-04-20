@@ -1,8 +1,8 @@
 """
 Load blocklist / UGC CSV datasets and persist user-flagged domains.
 """
-from __future__ import annotations
 
+from __future__ import annotations
 import csv
 from pathlib import Path
 
@@ -14,7 +14,6 @@ UGC_PATH = DATA_DIR / "ugc_platforms.csv"
 blocklist_set: set[str] = set()
 ugc_platforms_set: set[str] = set()
 last_load_error: str | None = None
-
 
 def normalize_domain(netloc: str) -> str:
     host = netloc.lower().strip()
@@ -35,7 +34,6 @@ def _read_csv_domains(path: Path) -> set[str]:
             if row and row[0].strip():
                 out.add(normalize_domain(row[0].strip()))
     return out
-
 
 def load_datasets() -> None:
     """
@@ -70,7 +68,6 @@ def load_datasets() -> None:
     ugc_platforms_set.update(ugc)
     last_load_error = "; ".join(errors) if errors else None
 
-
 def append_to_blocklist(domain: str) -> None:
     """Append a normalized root domain to blocklist.csv (newline after row)."""
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -80,7 +77,6 @@ def append_to_blocklist(domain: str) -> None:
     with open(BLOCKLIST_PATH, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f, lineterminator="\n")
         writer.writerow([normalized])
-
 
 def flag_new_source(parent) -> tuple[bool, str]:
     """
@@ -115,7 +111,6 @@ def flag_new_source(parent) -> tuple[bool, str]:
         parent=parent,
     )
     return True, confirmed
-
 
 if __name__ == "__main__":
     load_datasets()
