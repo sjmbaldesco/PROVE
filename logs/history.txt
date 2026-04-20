@@ -1,1 +1,2 @@
 2026-04-20T09:33:35.844668	(site:snopes.com OR site:politifact.com OR site:factcheck.org OR site:reuters.com OR site:apnews.com OR site:fullfact.org) philstar
+2026-04-20T11:39:19.839723	(site:snopes.com OR site:politifact.com OR site:factcheck.org OR site:reuters.com OR site:apnews.com OR site:fullfact.org) philstar.com
