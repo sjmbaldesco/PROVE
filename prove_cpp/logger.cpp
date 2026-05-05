@@ -1,9 +1,9 @@
 #include "logger.h"
 #include <fstream>
-#include <filesystem>
 #include <iostream>
 #include <iomanip>
 #include <ctime>
+#include <cstdlib>
 
 std::string sanitize_for_log(const std::string& text) {
     std::string out;
@@ -26,15 +26,15 @@ std::string sanitize_for_log(const std::string& text) {
 }
 
 void log_transaction(const std::string& query, const std::string& label) {
-    std::filesystem::path log_dir = "logs";
-    std::filesystem::create_directories(log_dir);
+    std::string log_dir = "logs";
+    std::system("mkdir logs 2> NUL");
     
     std::time_t now = std::time(nullptr);
     std::tm* t = std::gmtime(&now);
     char buf[30];
     std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", t);
     
-    std::ofstream f(log_dir / "history.txt", std::ios::app);
+    std::ofstream f(log_dir + "/history.txt", std::ios::app);
     if (f.is_open()) {
         f << "[" << buf << "] " << sanitize_for_log(query) << " -> " << label << "\n";
     }

@@ -5,7 +5,6 @@
 #include "search.h"
 #include "logger.h"
 #include <fstream>
-#include <filesystem>
 
 void display_menu() {
     std::cout << "\n=== P.R.O.V.E. ===\n";
@@ -31,7 +30,9 @@ int main() {
             std::string query;
             if (!std::getline(std::cin, query)) break;
             
-            auto [input_type, parsed_value] = process_input(query);
+            auto res = process_input(query);
+            std::string input_type = std::get<0>(res);
+            std::string parsed_value = std::get<1>(res);
             std::string label = evaluate_credibility(input_type, parsed_value);
             
             std::cout << "Classification: " << label << "\n";

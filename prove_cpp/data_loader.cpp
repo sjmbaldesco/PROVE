@@ -1,8 +1,8 @@
 #include "data_loader.h"
 #include <fstream>
 #include <iostream>
-#include <filesystem>
 #include <algorithm>
+#include <cstdlib>
 
 namespace data_loader {
 
@@ -23,11 +23,11 @@ std::string normalize_domain(const std::string& netloc) {
     return host;
 }
 
-std::unordered_set<std::string> read_csv_domains(const std::filesystem::path& path) {
+std::unordered_set<std::string> read_csv_domains(const std::string& path) {
     std::unordered_set<std::string> out;
     std::ifstream f(path);
     if (!f.is_open()) {
-        std::cerr << "Warning: Missing dataset or could not read: " << path.filename() << "\n";
+        std::cerr << "Warning: Missing dataset or could not read: " << path << "\n";
         return out;
     }
     std::string line;
@@ -43,18 +43,18 @@ std::unordered_set<std::string> read_csv_domains(const std::filesystem::path& pa
 }
 
 void load_datasets() {
-    std::filesystem::path data_dir = "data";
-    blocklist_set = read_csv_domains(data_dir / "blocklist.csv");
-    ugc_platforms_set = read_csv_domains(data_dir / "ugc_platforms.csv");
+    std::string data_dir = "data";
+    blocklist_set = read_csv_domains(data_dir + "/blocklist.csv");
+    ugc_platforms_set = read_csv_domains(data_dir + "/ugc_platforms.csv");
 }
 
 void append_to_blocklist(const std::string& domain) {
-    std::filesystem::path data_dir = "data";
-    std::filesystem::create_directories(data_dir);
+    std::string data_dir = "data";
+    std::system("mkdir data 2> NUL");
     std::string normalized = normalize_domain(domain);
     if (normalized.empty()) throw std::invalid_argument("Empty domain");
     
-    std::ofstream f(data_dir / "blocklist.csv", std::ios::app);
+    std::ofstream f(data_dir + "/blocklist.csv", std::ios::app);
     if (f.is_open()) {
         f << normalized << "\n";
     }
