@@ -1,0 +1,2 @@
+[2026-05-05T22:47:23Z] the pope is dead -> UNKNOWN
+[2026-05-05T22:48:07Z] theonion.com -> FAKE
